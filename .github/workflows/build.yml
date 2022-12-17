@@ -6,7 +6,7 @@ on:
       build_type:
         description: Type of build (Debug, Release, RelWithDebInfo, MinSizeRel)
         type: string
-        default: Debug
+        default: Release
       is_qt_cached:
         description: Enable Qt caching or not
         type: string
@@ -22,7 +22,7 @@ on:
 jobs:
   build:
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         include:
 
@@ -232,15 +232,6 @@ jobs:
           vsversion: 2022
           arch: ${{ matrix.vcvars_arch }}
 
-      - name: Prepare AppImage (Linux)
-        if: runner.os == 'Linux' && matrix.qt_ver != 5
-        run: |
-          wget "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage"
-          wget "https://github.com/linuxdeploy/linuxdeploy-plugin-appimage/releases/download/continuous/linuxdeploy-plugin-appimage-x86_64.AppImage"
-          wget "https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage"
-
-          ${{ github.workspace }}/.github/scripts/prepare_JREs.sh
-
       - name: Add QT_HOST_PATH var (Windows MSVC arm64)
         if: runner.os == 'Windows' && matrix.architecture == 'arm64'
         run: |
@@ -305,26 +296,6 @@ jobs:
         if: runner.os == 'Windows' && matrix.msystem == ''
         run: |
           cmake --build ${{ env.BUILD_DIR }} --config ${{ inputs.build_type }}
-
-      ##
-      # TEST
-      ##
-
-      - name: Test
-        if: runner.os != 'Windows'
-        run: |
-          ctest -E "^example64|example$" --test-dir build --output-on-failure
-
-      - name: Test (Windows MinGW-w64)
-        if: runner.os == 'Windows' && matrix.msystem != ''
-        shell: msys2 {0}
-        run: |
-          ctest -E "^example64|example$" --test-dir build --output-on-failure
-
-      - name: Test (Windows MSVC)
-        if: runner.os == 'Windows' && matrix.msystem == '' && matrix.architecture != 'arm64'
-        run: |
-          ctest -E "^example64|example$" --test-dir build --output-on-failure -C ${{ inputs.build_type }} 
 
       ##
       # PACKAGE BUILDS
