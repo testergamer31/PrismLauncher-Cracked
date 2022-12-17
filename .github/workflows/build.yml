@@ -41,17 +41,20 @@ jobs:
             name: "Windows-MinGW-w64"
             msystem: clang64
 
-          - os: windows-2022
-            name: "Windows-MSVC-Legacy"
-            msystem: ''
-            architecture: 'win32'
-            vcvars_arch: 'amd64_x86'
-            qt_ver: 5
-            qt_host: windows
-            qt_arch: 'win32_msvc2019'
-            qt_version: '5.15.2'
-            qt_modules: ''
-            qt_tools: 'tools_openssl_x86'
+##
+# MSVC-Legacy (Windows) removed by causing problems with the packaging process.
+##
+#          - os: windows-2022
+#            name: "Windows-MSVC-Legacy"
+#            msystem: ''
+#            architecture: 'win32'
+#            vcvars_arch: 'amd64_x86'
+#            qt_ver: 5
+#            qt_host: windows
+#            qt_arch: 'win32_msvc2019'
+#            qt_version: '5.15.2'
+#            qt_modules: ''
+#            qt_tools: 'tools_openssl_x86'
 
           - os: windows-2022
             name: "Windows-MSVC"
