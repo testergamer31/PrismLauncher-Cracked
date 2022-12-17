@@ -7,3 +7,6 @@
 </p>
 
 > This project is a Fork of Prism, which aims to 'unblock' the use of Offline Accounts without the restriction of having a working Online Account. No other modifications were applied to the project's source code.
+
+[Latest Builds (Debug mode) on service nightly.link](https://nightly.link/Diegiwg/PrismLauncher-Cracked/workflows/trigger_builds/develop)
+[Latest Builds (Release mode) on service nightly.link](https://nightly.link/Diegiwg/PrismLauncher-Cracked/workflows/trigger_release/develop)
